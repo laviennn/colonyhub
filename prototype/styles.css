@@ -165,8 +165,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Giant split brand line */
 .hero-word {
   display: flex; justify-content: space-between; align-items: baseline;
-  font: 700 clamp(4.2rem, 17.2vw, 15.5rem)/0.84 var(--f-display); letter-spacing: -0.06em;
-  color: var(--navy); padding-top: clamp(14px, 2.4vw, 32px); margin-bottom: clamp(12px, 1.6vw, 22px);
+  /* line-height leaves room for the "y" descender so the panel never cuts it */
+  font: 700 clamp(4.2rem, 17.2vw, 15.5rem)/1.04 var(--f-display); letter-spacing: -0.06em;
+  color: var(--navy); padding-top: clamp(4px, 1vw, 16px); margin-bottom: clamp(10px, 1.2vw, 18px);
   user-select: none;
 }
 .hw-b { color: var(--indigo); }
@@ -179,7 +180,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Media panel */
 .hero-panel {
   position: relative; overflow: hidden; isolation: isolate; color: var(--on-dark);
-  height: clamp(520px, calc(100svh - var(--header-h) - 17.2vw * 0.84 - 72px), 760px);
+  height: clamp(520px, calc(100svh - var(--header-h) - 17.2vw * 1.04 - 56px), 760px);
   border-radius: 24px;
   background:
     radial-gradient(60% 75% at 72% 58%, rgba(138, 148, 242, 0.55), transparent 70%),
@@ -397,7 +398,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .footer-cols a { text-decoration: none; font-size: 0.9375rem; }
 .footer-cols a:hover { color: var(--lime); }
 .f-tag { justify-self: end; text-align: right; font: 600 1.25rem/1.3 var(--f-display); }
-.f-word { margin-top: clamp(40px, 6vw, 80px); text-align: center; white-space: nowrap; font: 700 clamp(4rem, 18.5vw, 17rem)/1 var(--f-display); letter-spacing: -0.06em; user-select: none; padding-bottom: 0.03em; position: relative; z-index: 2; }
+/* Footer wordmark: sits inside the container padding and is sized to fill exactly its width
+   (Sora 700 at -0.06em: "colonyhub" ≈ 4.93 × font-size wide, so 0.2 × width leaves a hair of room). */
+.f-word {
+  max-width: var(--max); margin: clamp(40px, 6vw, 80px) auto 0; padding: 0 var(--pad) clamp(28px, 3.4vw, 52px);
+  white-space: nowrap; user-select: none; position: relative; z-index: 2;
+  font: 700 calc((min(100vw, var(--max)) - 2 * var(--pad)) * 0.2012)/1.04 var(--f-display); letter-spacing: -0.06em;
+}
 .f-word span { color: var(--periwinkle); }
 .f-base { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-block: 18px; font-size: 0.75rem; color: var(--on-dark-2); border-top: 1px solid var(--rule); }
 
@@ -418,7 +425,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 767px) {
   :root { --header-h: 62px; }
   .rules-inner i:nth-child(2), .rules-inner i:nth-child(4) { display: none; }
-  .hero-word { font-size: 18.2vw; justify-content: flex-start; }
+  .hero-word { font-size: 18.2vw; justify-content: flex-start; padding-top: 6px; }
   .hero-panel { height: auto; display: flex; flex-direction: column; gap: 20px; padding: 0 16px 16px; border-radius: 20px; }
   .hp-tabs { position: static; grid-template-columns: repeat(3, 1fr); padding: 0; margin-inline: -16px; }
   .hp-tabs a { min-height: 44px; font-size: 0.8125rem; }
