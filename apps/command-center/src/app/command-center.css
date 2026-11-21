@@ -1064,4 +1064,52 @@ html:not([data-theme='dark']) .cc-textarea {
   .cc-tab-item:active {
     transform: none !important;
   }
+  .cc-loading-arc {
+    animation: none !important;
+  }
+}
+
+/* ---------- Full-Screen Command Center Loading Overlay ---------- */
+.cc-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--cc-bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.cc-loading-card {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 20px 28px;
+  border-radius: var(--cc-r-md);
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  box-shadow: 0 12px 32px rgba(11, 18, 48, 0.14);
+}
+
+.cc-loading-spinner {
+  width: 40px;
+  height: 40px;
+}
+
+.cc-loading-arc {
+  transform-origin: 20px 20px;
+  animation: cc-spin 850ms linear infinite;
+}
+
+.cc-loading-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--cc-text-muted);
+}
+
+@keyframes cc-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

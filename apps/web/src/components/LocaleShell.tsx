@@ -3,6 +3,7 @@ import { getTrackingSettings } from '@colonyhub/db';
 import { HubMarkDefs, PageRules } from '@colonyhub/ui';
 import { AnalyticsBridge } from '@/components/AnalyticsBridge';
 import { CookieConsent } from '@/components/CookieConsent';
+import { RouteProgressBar } from '@/components/RouteProgressBar';
 import { TrackingScripts } from '@/components/TrackingScripts';
 import '@fontsource/sora/400.css';
 import '@fontsource/sora/600.css';
@@ -31,6 +32,7 @@ export async function LocaleShell({
     <html lang={locale}>
       <body>
         <HubMarkDefs />
+        <RouteProgressBar />
         <PageRules />
         <a className="skip-link" href="#main">
           {dict.skip}

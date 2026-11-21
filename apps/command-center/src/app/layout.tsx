@@ -9,6 +9,7 @@ import '@fontsource/sora/700.css';
 import '@colonyhub/ui/styles/tokens.css';
 import '@colonyhub/ui/styles/base.css';
 import './command-center.css';
+import { NavigationLoadingOverlay } from '@/components/FullLoadingOverlay';
 
 export const metadata: Metadata = {
   title: 'Colony Command Center | colonyhub',
@@ -41,7 +42,10 @@ export default function CommandCenterLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <NavigationLoadingOverlay />
+        {children}
+      </body>
     </html>
   );
 }
