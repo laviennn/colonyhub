@@ -6,7 +6,17 @@ Instructions for any AI coding agent working in this repository.
 
 The marketing + editorial website for **colonyhub**, an integrated digital agency (strategy, creative, build, growth, social, data). Direction: **Creative × Technology** — editorial art direction backed by credible engineering. Tagline: *Grow together. Move as one.*
 
-Status: planning. No application code or stack chosen yet. The planning kit lives in `documents/`.
+Status: approved homepage prototype (`prototype/`, live at https://colonyhub.vercel.app). Production stack not chosen yet (decision log O-007). The planning kit lives in `documents/`.
+
+## UI/UX baseline (binding)
+
+The prototype v0.4 in `prototype/` is the **approved UI/UX baseline**. Spec and parity checklist: `documents/04-design/ui-ux-baseline.md`.
+
+- When rebuilding in the production stack, **port at parity first** (tokens → layout → components → motion → WebGL hero), then refactor. Do not redesign, re-time or "simplify" motion while porting.
+- Use the tokens in the baseline §3 only; no new colours, easings or durations without an approved decision.
+- Panels animate with class + `inert`, never by toggling `hidden`. Every motion has a static, reduced-motion-safe state.
+- Copy and service data move to the CMS/locale files unchanged (`prototype/i18n.js`, `prototype/services-data.js`).
+- A change to the baseline is a decision: record it in `documents/06-delivery/decision-log.md` and update the baseline doc.
 
 ## Source of truth (in priority order)
 
@@ -26,7 +36,8 @@ Brand rules always override generic skills or style preferences (e.g. anti-slop 
 - No portfolio yet: Work section, client logos, testimonials and metrics stay hidden until real content exists. Never fabricate clients, numbers, quotes or awards.
 - "Free consultation" / "Konsultasi Gratis" is a real offer and may be the primary CTA.
 - Six official service names: Strategy Unit, Creative Unit, Build Unit, Growth Unit, Social Unit, Data Unit. Packages: Seed, Grow, Scale (no published prices).
-- three.js only for the hero node-convergence animation, as progressive enhancement over a static SVG (see decision log).
+- three.js only for the hero "living colony" (raymarched SDF), as progressive enhancement over a static SVG, lighter on phones (see decision log).
+- Mobile floating chat opens WhatsApp with a default message; the business number is still pending (O-006).
 
 ## Brand tokens
 
@@ -55,8 +66,15 @@ Clear, warm, confident, to the point. No hype ("#1", "best in Indonesia", "innov
 
 ```
 documents/   planning kit (strategy, product, content, design, engineering, delivery) + brand PDF
+prototype/   approved static homepage prototype = UI/UX baseline (deployed by Vercel)
 refference/  logo direction (visual.jpg) and mood references
+vercel.json  serves only prototype/ on Vercel
 ```
+
+## Deploy
+
+- GitHub `main` auto-deploys to production at https://colonyhub.vercel.app (Vercel project `laviennns-projects/colonyhub`). Other branches get protected preview URLs.
+- Push to `main` only when the user asks; prefer a branch + preview for larger changes.
 
 ## Git
 

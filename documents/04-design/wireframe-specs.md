@@ -4,6 +4,8 @@
 
 ## 1. Home desktop (top to bottom)
 
+> **Superseded for the homepage:** the approved high-fidelity baseline is the running prototype (`prototype/`, spec in `ui-ux-baseline.md`). Use the wireframes below only for pages the prototype does not cover yet.
+
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │ logo       Work Services Approach Insights About  [Start]   │

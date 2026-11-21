@@ -81,7 +81,8 @@ CMS candidates should be compared for editing UX, schema validation, roles, back
 - Document content contracts and service-specific reusable templates.
 - Keep vendor-specific logic inside adapters to allow replacement.
 - Avoid complex motion libraries until simple CSS/native animation is insufficient.
-- three.js is permitted only for the hero node animation: dynamically imported after first paint, isolated in one component/island, static SVG fallback as LCP, render loop paused off-screen/hidden tab, skipped for `prefers-reduced-motion`, `saveData` or low-end devices, resources disposed on unmount, and its JS budget tracked in CI.
+- three.js is permitted only for the hero "living colony" (raymarched SDF shader on one full-screen quad): dynamically imported after first paint, isolated in one component/island, static SVG fallback as LCP, render loop paused off-screen/hidden tab, reduced render scale with auto-downscale (lighter on phones), skipped for `prefers-reduced-motion`, `saveData`/2G, ≤ 2 cores or no WebGL2, resources disposed on unmount, and its JS budget tracked in CI. Port `prototype/hero-nodes.js` as-is first; see `../04-design/ui-ux-baseline.md` §5.
+- The rebuild must reach parity with the approved prototype before refactoring behaviour (`../04-design/ui-ux-baseline.md` §1 and §9).
 
 ## 9. Testing pyramid
 

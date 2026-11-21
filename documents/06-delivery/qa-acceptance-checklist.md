@@ -15,7 +15,7 @@
 
 ## Page coverage
 
-- [ ] Home contains working hero, selected work, services, process, Insights and CTA.
+- [ ] Home matches the approved baseline: hero, network map, statement, route, tickets, Insights, about and CTA (selected work stays hidden until real work exists).
 - [ ] Work listing and all published case detail pages render correctly.
 - [ ] All six service pages have deliverables and relevant next action.
 - [ ] Approach reflects approved operating process rather than unverified claims.
@@ -33,6 +33,9 @@
 - [ ] All components have hover, focus, active, disabled and loading states as relevant.
 - [ ] Sticky elements do not obscure headings or inputs.
 - [ ] Reduced-motion preference is respected.
+- [ ] Every item in the parity checklist of `../04-design/ui-ux-baseline.md` §9 passes against the prototype.
+- [ ] Mobile menu, Services accordion and floating chat animate per baseline; no panel toggles via `hidden`.
+- [ ] Hero WebGL falls back to the static mark (reduced motion, Save-Data, low-end, no WebGL2) and pauses off-screen.
 
 ## Accessibility
 

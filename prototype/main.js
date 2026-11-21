@@ -24,19 +24,26 @@
   mega.addEventListener('click', (e) => { if (e.target.closest('a')) setMega(false); });
 
   const toggle = $('[data-menu-toggle]'), menu = $('[data-mobile-menu]');
+  // The panel stays in the DOM and animates (class + inert) instead of popping via `hidden`.
+  let menuOpen = false;
   const setMenu = (o) => {
-    toggle.setAttribute('aria-expanded', String(o)); menu.hidden = !o;
+    if (o === menuOpen) return;
+    menuOpen = o;
+    toggle.setAttribute('aria-expanded', String(o));
+    menu.classList.toggle('is-open', o);
+    menu.inert = !o;
+    document.body.classList.toggle('menu-open', o);
     document.body.style.overflow = o ? 'hidden' : '';
-    if (o) { const f = menu.querySelector('a'); f && f.focus(); }
+    if (o) setTimeout(() => { const f = menu.querySelector('a'); f && f.focus({ preventScroll: true }); }, reduce ? 0 : 180);
   };
-  toggle.addEventListener('click', () => setMenu(menu.hidden));
+  toggle.addEventListener('click', () => setMenu(!menuOpen));
   menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (!mega.hidden) { setMega(false); trigger.focus(); }
-      if (!menu.hidden) { setMenu(false); toggle.focus(); }
+      if (menuOpen) { setMenu(false); toggle.focus(); }
     }
-    if (e.key === 'Tab' && !menu.hidden) {
+    if (e.key === 'Tab' && menuOpen) {
       const items = [toggle, ...$$('a, button', menu)].filter((el) => el.offsetParent !== null);
       const first = items[0], last = items[items.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
@@ -51,6 +58,56 @@
     clock.textContent = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit' }).format(new Date());
   };
   tick(); setInterval(tick, 15000);
+
+  /* ---------- Floating chat → WhatsApp (mobile) ----------
+     TODO before launch: set CHAT.number to the verified business WhatsApp number
+     (international format, digits only, e.g. 62812xxxxxxx). Decision log O-006.
+     While it is empty the button falls back to the on-page contact section. */
+  const CHAT = {
+    number: '',
+    message: {
+      en: "Hi colonyhub, I'd like a free consultation. My business is: ",
+      id: 'Halo colonyhub, saya ingin konsultasi gratis. Bisnis saya: '
+    }
+  };
+  const chat = $('[data-chat]');
+  function chatHref() {
+    if (!CHAT.number) return '#contact';
+    return `https://wa.me/${CHAT.number}?text=${encodeURIComponent(CHAT.message[lang])}`;
+  }
+  function setupChat() {
+    if (!chat) return;
+    chat.hidden = false;
+    const updateHref = () => {
+      chat.href = chatHref();
+      if (CHAT.number) chat.setAttribute('target', '_blank'); else chat.removeAttribute('target');
+    };
+    updateHref();
+    chat.updateHref = updateHref;
+
+    // Visible only between the hero and the page's own CTA/footer
+    let pastHero = false, nearEnd = false, compactT;
+    const sync = () => {
+      const show = pastHero && !nearEnd;
+      if (show && !chat.classList.contains('is-shown')) {
+        chat.classList.remove('is-compact');
+        clearTimeout(compactT);
+        compactT = setTimeout(() => chat.classList.add('is-compact'), 3200); // label first, then fold to the icon
+      }
+      chat.classList.toggle('is-shown', show);
+      chat.tabIndex = show ? 0 : -1;
+      chat.setAttribute('aria-hidden', String(!show));
+    };
+    new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; sync(); })
+      .observe($('.hero'));
+    const endObs = new IntersectionObserver((es) => {
+      nearEnd = es.some((e) => e.isIntersecting) || [...endTargets].some((t) => t.getBoundingClientRect().top < window.innerHeight);
+      sync();
+    });
+    const endTargets = [$('#contact'), $('.site-footer')];
+    endTargets.forEach((t) => endObs.observe(t));
+  }
+  setupChat();
 
   /* ---------- Network map ---------- */
   const svg = $('[data-map]'), mapWrap = $('[data-net-map]'), legend = $('[data-legend]');
@@ -219,6 +276,120 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  /* ---------- Colony Stories: rail + full-screen viewer ----------
+     Frames are designed brand content built from stories-data.js (2D/3D art in assets/stories + HTML
+     stickers). Interactions never collect answers on this site: the viewer's CTA sends people to
+     @colonyhub.id on Instagram. */
+  const STORIES = window.CH_STORIES || [];
+  const IG = window.CH_IG || { profile: 'https://www.instagram.com/' };
+  const rail = $('[data-story-rail]');
+  const viewer = $('[data-story-viewer]');
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function stickerHTML(st) {
+    if (st.type === 'poll') return `<div class="sf-sticker st-poll">${st.options[lang].map((o) => `<span class="opt">${esc(o)}</span>`).join('')}</div>`;
+    if (st.type === 'quiz') return `<div class="sf-sticker st-quiz"><p class="st-head">Quiz</p><ol>${st.options[lang].map((o, k) => `<li class="opt"><b>${'ABC'[k]}</b>${esc(o)}</li>`).join('')}</ol></div>`;
+    if (st.type === 'slider') return `<div class="sf-sticker st-slider"><p>${esc(st.label[lang])}</p><div class="st-track"><span class="st-thumb"><svg><use href="#hub-mark"/></svg></span></div></div>`;
+    if (st.type === 'question') return `<div class="sf-sticker st-question"><p class="st-head">${esc(st.label[lang])}</p><p class="st-field">…</p></div>`;
+    return '';
+  }
+  function frameHTML(s) {
+    const u = UNITS[s.unit] || { name: '', c: '#8A94F2' };
+    return `<div class="story-frame" style="--c:${u.c};background-image:url('${esc(s.bg)}')">
+      <div class="sf-top" aria-hidden="true"><div class="sf-bar"><i></i></div>
+        <div class="sf-who"><span class="sf-avatar"><svg><use href="#hub-mark"/></svg></span>colonyhub.id<span class="sf-unit">${esc(u.name)}</span></div></div>
+      <p class="sf-hook">${esc(s.hook[lang])}</p>
+      ${stickerHTML(s.sticker)}
+      <p class="sf-caption">${esc(s.caption[lang])}</p>
+    </div>`;
+  }
+  function buildStories() {
+    if (!rail) return;
+    rail.innerHTML = STORIES.map((s, i) => {
+      const u = UNITS[s.unit] || { c: '#8A94F2' };
+      return `<li><button type="button" class="story-card" data-story="${i}" style="--c:${u.c}" aria-label="${esc((dict[lang] && dict[lang]['stories.open']) || 'Open story')}: ${esc(s.hook[lang])}">
+        ${frameHTML(s)}<span class="sf-ring" aria-hidden="true"></span></button></li>`;
+    }).join('');
+    $$('.story-card', rail).forEach((b) => b.addEventListener('click', () => openStory(Number(b.dataset.story))));
+  }
+
+  // Viewer state
+  let cur = 0, timer = 0, startedAt = 0, remaining = 0, paused = false, held = false, holdT = 0;
+  const DUR = 6000;
+  const svFrame = $('[data-sv-frame]'), svBars = $('[data-sv-bars]'), svUnit = $('[data-sv-unit]'), svIG = $('[data-sv-ig]');
+
+  function renderStory(i, enter) {
+    cur = i;
+    const s = STORIES[i], u = UNITS[s.unit] || { name: '', c: '#8A94F2' };
+    viewer.style.setProperty('--c', u.c);
+    svFrame.innerHTML = frameHTML(s);
+    const f = $('.story-frame', svFrame);
+    if (enter) { f.classList.add('is-entering'); }
+    svUnit.textContent = u.name;
+    svIG.href = IG.profile;
+    svBars.innerHTML = STORIES.map((_, k) => `<span class="${k < i ? 'done' : k === i ? 'now' : ''}"><i></i></span>`).join('');
+    svBars.style.setProperty('--dur', DUR + 'ms');
+    if (reduce) { const n = $('.now i', svBars); if (n) n.style.width = '100%'; return; } // no auto-advance
+    startTimer(DUR);
+  }
+  function startTimer(ms) {
+    clearTimeout(timer); remaining = ms; startedAt = performance.now(); paused = false;
+    viewer.classList.remove('is-paused');
+    timer = setTimeout(next, ms);
+  }
+  function setPaused(p) {
+    if (reduce || p === paused) return;
+    paused = p; viewer.classList.toggle('is-paused', p);
+    $('[data-sv-pause]').setAttribute('aria-label', p ? 'Play' : 'Pause');
+    if (p) { clearTimeout(timer); remaining -= performance.now() - startedAt; }
+    else { startedAt = performance.now(); timer = setTimeout(next, Math.max(remaining, 0)); }
+  }
+  function next() { if (cur < STORIES.length - 1) renderStory(cur + 1, true); else closeStory(); }
+  function prev() { renderStory(Math.max(cur - 1, 0), true); }
+  function openStory(i) {
+    if (!viewer) return;
+    viewer.showModal();
+    document.body.classList.add('story-open');
+    document.body.style.overflow = 'hidden';
+    renderStory(i, false);
+    $('[data-sv-next]').focus({ preventScroll: true });
+  }
+  function closeStory() { if (viewer.open) viewer.close(); }
+
+  if (viewer) {
+    viewer.addEventListener('close', () => {
+      clearTimeout(timer); svFrame.innerHTML = '';
+      document.body.classList.remove('story-open');
+      document.body.style.overflow = '';
+    });
+    $('[data-sv-close]').addEventListener('click', closeStory);
+    $('[data-sv-pause]').addEventListener('click', () => setPaused(!paused));
+    $('[data-sv-next]').addEventListener('click', () => { if (held) { held = false; return; } next(); });
+    $('[data-sv-prev]').addEventListener('click', () => { if (held) { held = false; return; } prev(); });
+    viewer.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+      if (e.key === ' ' && e.target.closest('.sv-tap')) { e.preventDefault(); setPaused(!paused); }
+    });
+    viewer.addEventListener('click', (e) => { if (e.target === viewer) closeStory(); }); // backdrop
+    // Press and hold to pause (like Instagram); a hold never counts as a tap
+    const stage = $('[data-sv-stage]');
+    stage.addEventListener('pointerdown', (e) => {
+      if (!e.target.closest('.sv-tap')) return;
+      holdT = setTimeout(() => { held = true; setPaused(true); }, 220);
+    });
+    const release = () => { clearTimeout(holdT); if (held) setPaused(false); };
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
+    // Swipe down to close on touch
+    let y0 = null;
+    stage.addEventListener('touchstart', (e) => { y0 = e.touches[0].clientY; }, { passive: true });
+    stage.addEventListener('touchend', (e) => { if (y0 !== null && e.changedTouches[0].clientY - y0 > 90) closeStory(); y0 = null; });
+    // Pause while the visitor is on the Instagram CTA
+    svIG.addEventListener('pointerenter', () => setPaused(true));
+    svIG.addEventListener('pointerleave', () => setPaused(false));
+  }
+
   /* ---------- Language (EN default, ID) ---------- */
   const dict = window.CH_I18N || {};
   const nodes = $$('[data-i18n]');
@@ -229,6 +400,9 @@
     document.documentElement.lang = l;
     $$('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
     buildMap(); buildLegend(); buildMegaAndFooter(); buildStatement(); activate(pinned);
+    if (chat && chat.updateHref) chat.updateHref(); // default message follows the page language
+    buildStories();
+    if (viewer && viewer.open) renderStory(cur, false);
     try { localStorage.setItem('ch-lang', l); } catch (_) { /* storage unavailable */ }
   }
   $$('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));

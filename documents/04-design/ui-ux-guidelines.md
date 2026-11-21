@@ -2,6 +2,8 @@
 
 **Source:** Brand Guidelines pp.5–11. New UX rules are project proposals, not existing brand mandates.
 
+> **Baseline:** the approved prototype (`prototype/`, spec in `ui-ux-baseline.md`) is the concrete reference for everything below. When a rule here is generic and the baseline is specific, follow the baseline.
+
 ## Design thesis
 
 An independent creative studio's sense of composition, paired with the discipline of a reliable technology partner. Typography and selected work provide visual confidence. Interfaces stay functional, fast, readable and inclusive.
@@ -64,7 +66,9 @@ Single main column, 16–24px horizontal safe padding, 44x44 CSS px touch target
 
 Brand source suggests 200–400ms, ease-out, node-convergence theme. Apply to hover, drawer, card reveals only if useful. Use `prefers-reduced-motion` to remove non-essential movement. Never delay content visibility while loading animation completes. No scroll-jacking, perpetual particles, aggressive parallax or cursor hijacking.
 
-**Hero WebGL exception (APPROVED, 2026-11-21):** the hero may use a lightweight three.js scene where brand nodes converge into the C Hub Mark, then settle (no endless loop). It is an enhancement over a static SVG mark that renders first; headline and CTA never wait for it. Disabled under reduced motion. No 3D anywhere else on the site.
+**Hero WebGL exception (APPROVED, 2026-11-21, revised):** the hero uses the raymarched "living colony": the Hub Mark nodes melt together through liquid bridges, lime colonists travel the chain and the pointer becomes a merging drop. It enhances a static SVG mark that renders first; headline and CTA never wait for it. Runs lighter on phones; disabled under reduced motion, Save-Data and low-end devices. No 3D anywhere else on the site. Exact spec: `ui-ux-baseline.md` §5.
+
+**Motion baseline:** every interaction uses the tokens in `ui-ux-baseline.md` §3 (expo-out `--ease` to open or enter, a faster closing ease to dismiss). Panels animate with class + `inert`, never by toggling `hidden`.
 
 ## Interaction and feedback
 

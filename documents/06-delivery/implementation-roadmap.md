@@ -23,7 +23,13 @@
 **Outputs:** final logo integration, Figma component library (if used), desktop/tablet/mobile screens, motion reference, export rules, editorial and case-study templates.  
 **Exit:** representative pages approved with real content, not lorem ipsum.
 
+### Status (2026-11-21)
+
+Phases 2–3 are covered for the **homepage** by the approved prototype v0.4 (`prototype/`, live at colonyhub.vercel.app, spec `../04-design/ui-ux-baseline.md`). Other pages (service detail, approach, insights, article, about, contact, 404) still need design, built in the same world and motion system. Logo master SVG and the WhatsApp number remain open.
+
 ## Phase 4 — Implementation foundation
+
+**Rebuild rule:** port the prototype at parity first (tokens → layout → components → motion → WebGL hero), then refactor. Parity checklist: `../04-design/ui-ux-baseline.md` §9.
 
 **Outputs:** selected framework/CMS/hosting, repositories, CI, routing, tokens, global UI components, content adapters, preview/staging and SEO utilities.  
 **Exit:** editors can preview and developers can deploy safely.

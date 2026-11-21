@@ -30,6 +30,7 @@ colonyhub is a digital agency combining strategy, creativity, technology, and da
 | `03-content/insights-editorial-strategy.md` | Article taxonomy, SEO editorial process, templates |
 | `03-content/copywriting-guidelines.md` | Brand voice, writing rules, microcopy |
 | `04-design/ui-ux-guidelines.md` | UX principles, responsive behavior, interaction specs |
+| `04-design/ui-ux-baseline.md` | **Approved UI/UX baseline** (prototype v0.4): tokens, sections, interaction and motion specs, parity checklist for the rebuild |
 | `04-design/design-system.md` | Color/font/layout/component tokens and states |
 | `04-design/wireframe-specs.md` | Text wireframes, block-level page hierarchy |
 | `05-engineering/technical-guidelines.md` | Architecture options, CMS, data, testing, security |

@@ -27,6 +27,15 @@ Footer: Work, Services, Approach, Insights, About, Contact, Privacy; real social
 
 The source's suggested menu is Layanan · Portofolio · Cara Kerja · Insight · Tentang · Kontak (p.10). English labels above are a **website direction choice**, not a verbatim source requirement.
 
+### Approved navigation baseline (prototype v0.3, 2026-11-21)
+
+- **Desktop:** logo | **Services** (mega menu: six Colony Units + Seed/Grow/Scale) | Approach | Insights | About | EN/ID | **Free consultation** (lime CTA).
+- **Work is hidden** until publishable work exists (decision O-003); the route stays reserved.
+- **Mobile (≤ 1100 px):** labelled Menu button → full-height navy panel: Services, Approach, Seed · Grow · Scale, Insights, About, then the consultation CTA and EN/ID.
+- **Mobile floating chat** to WhatsApp between the hero and the CTA section.
+- **Locales:** English default at `/`, Indonesian at `/id/` (production), with `hreflang`.
+- Interaction details: `../04-design/ui-ux-baseline.md` §5.
+
 ## 2. Route behavior
 
 | Route | Primary CTA | Secondary CTA | SEO intent |

@@ -2,6 +2,8 @@
 
 **Status:** Base tokens from Brand Guidelines pp.5–7, 9–10; implementation tokens and component inventory **PROPOSED**.
 
+> **Implemented baseline:** the approved prototype extends these tokens (navy-2, peri-soft, indigo-lt, on-dark-2, rule tokens, label colours per ground, service line colours, easing and duration tokens) and adds the component set listed in `ui-ux-baseline.md` §3 and §5. Treat that table as the token source for the rebuild.
+
 ## 1. Color tokens (SOURCE)
 
 ```css

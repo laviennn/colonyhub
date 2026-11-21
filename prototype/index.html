@@ -70,14 +70,14 @@
         </button>
       </div>
     </div>
-    <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+    <div class="mobile-menu" id="mobile-menu" inert data-mobile-menu>
       <nav class="wrap" aria-label="Mobile">
-        <a class="m-link" href="#network" data-i18n="nav.services">Services</a>
-        <a class="m-link" href="#route" data-i18n="nav.approach">Approach</a>
-        <a class="m-link" href="#tickets" data-i18n="nav.models">Seed · Grow · Scale</a>
-        <a class="m-link" href="#insights" data-i18n="nav.insights">Insights</a>
-        <a class="m-link" href="#about" data-i18n="nav.about">About</a>
-        <div class="m-foot">
+        <a class="m-link" style="--k:0" href="#network" data-i18n="nav.services">Services</a>
+        <a class="m-link" style="--k:1" href="#route" data-i18n="nav.approach">Approach</a>
+        <a class="m-link" style="--k:2" href="#tickets" data-i18n="nav.models">Seed · Grow · Scale</a>
+        <a class="m-link" style="--k:3" href="#insights" data-i18n="nav.insights">Insights</a>
+        <a class="m-link" style="--k:4" href="#about" data-i18n="nav.about">About</a>
+        <div class="m-foot" style="--k:5">
           <a class="btn btn--lime" href="#contact" data-i18n="cta.long">Book a free consultation</a>
           <div class="lang" role="group" aria-label="Language">
             <button type="button" data-lang="en" aria-pressed="true">EN</button>
@@ -256,6 +256,42 @@
       </div>
     </section>
 
+    <!-- 5b · COLONY STORIES (designed story frames for @colonyhub.id, not an Instagram embed) -->
+    <section class="stories" id="stories" aria-labelledby="stories-title">
+      <div class="wrap">
+        <div class="stories-head">
+          <p class="col-label" data-i18n="stories.label">Instagram</p>
+          <h2 id="stories-title" data-i18n="stories.title">Stories from the colony.</h2>
+          <p class="stories-lead" data-i18n="stories.lead">Short reels from @colonyhub.id: the polls, quizzes and questions we run with our audience every week.</p>
+          <a class="link-quiet stories-follow" href="https://www.instagram.com/colonyhub.id/" target="_blank" rel="noopener" data-i18n="stories.follow">Follow @colonyhub.id</a>
+        </div>
+      </div>
+      <ul class="story-rail" data-story-rail aria-label="Stories"></ul>
+    </section>
+
+    <!-- Story viewer -->
+    <dialog class="story-viewer" data-story-viewer aria-label="Story viewer">
+      <div class="sv-stage" data-sv-stage>
+        <div class="sv-bars" data-sv-bars aria-hidden="true"></div>
+        <div class="sv-top">
+          <span class="sv-avatar" aria-hidden="true"><svg class="mark-dark"><use href="#hub-mark"/></svg></span>
+          <span class="sv-handle">colonyhub.id</span>
+          <span class="sv-unit mono" data-sv-unit></span>
+          <button type="button" class="sv-btn sv-pause" data-sv-pause aria-label="Pause"><span aria-hidden="true"></span></button>
+          <button type="button" class="sv-btn sv-close" data-sv-close aria-label="Close stories"><span aria-hidden="true"></span></button>
+        </div>
+        <div class="sv-frame" data-sv-frame></div>
+        <button type="button" class="sv-tap sv-prev" data-sv-prev aria-label="Previous story"></button>
+        <button type="button" class="sv-tap sv-next" data-sv-next aria-label="Next story"></button>
+        <div class="sv-foot">
+          <a class="btn btn--lime btn--sm" data-sv-ig href="https://www.instagram.com/colonyhub.id/" target="_blank" rel="noopener">
+            <span data-i18n="stories.answer">Answer on Instagram</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </dialog>
+
     <!-- 6 · INSIGHTS -->
     <section class="insights" id="insights" aria-labelledby="ins-title">
       <div class="wrap">
@@ -344,11 +380,22 @@
     <p class="f-word" aria-hidden="true">colony<span>hub</span></p>
     <div class="wrap f-base mono">
       <span>© 2026 colonyhub</span>
-      <span data-i18n="ft.proto">Prototype v0.2 · placeholder content is marked</span>
+      <span data-i18n="ft.proto">Prototype v0.4 · placeholder content is marked</span>
     </div>
   </footer>
 
+  <!-- Floating chat (mobile only): opens WhatsApp with a prefilled message. Number + messages live in main.js (CHAT). -->
+  <a class="chat-fab" href="#contact" target="_blank" rel="noopener" data-chat hidden
+     aria-label="Chat with colonyhub on WhatsApp (opens WhatsApp)">
+    <span class="chat-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M4.5 18.5 5.6 15A7.5 7.5 0 1 1 9 18.4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 10.5h6M9 13.5h3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <i class="chat-dot"></i>
+    </span>
+    <span class="chat-label"><span data-i18n="chat.label">Chat on WhatsApp</span></span>
+  </a>
+
   <script src="services-data.js"></script>
+  <script src="stories-data.js"></script>
   <script src="i18n.js"></script>
   <script src="main.js"></script>
   <script type="module" src="hero-nodes.js"></script>

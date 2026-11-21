@@ -79,6 +79,27 @@
 - Constraints: progressive enhancement (static SVG/CSS fallback renders first and is the LCP element), lazy-load after first paint, pause when off-screen or tab hidden, disabled under `prefers-reduced-motion` and on low-power devices, must not regress LCP/INP/CLS budgets.
 - Approved by: user.
 
+### 2026-11-21 — UI/UX baseline approved (prototype v0.3)
+- New decision: the homepage prototype in `prototype/` (live at colonyhub.vercel.app) is the approved UI/UX baseline: "colony transit map" world, split-wordmark hero with media panel, network map with stop explanations, mobile accordion, statement moment, route, tickets, floating WhatsApp chat, and all motion specs.
+- The production rebuild ports it at parity before any redesign. Spec and parity checklist: `documents/04-design/ui-ux-baseline.md`.
+- Supersedes the earlier homepage layout proposals in `page-content-blueprints.md` §1 and `wireframe-specs.md` §1.
+- Approved by: user.
+
+### 2026-11-21 — Three.js scope (revised)
+- Previous position: hero node convergence with flat nodes and lines; skipped on narrow screens.
+- New decision: hero uses the raymarched "living colony" (SDF spheres + liquid bridges + lime colonists + pointer drop). It now also runs on phones in a lighter mode (0.5× render scale, 32 steps, ~30 fps cap, auto-downscale). Still skipped for reduced motion, Save-Data/2G, ≤ 2 cores, no WebGL2; static SVG remains the LCP element. Still no 3D anywhere else.
+- Approved by: user.
+
+### 2026-11-21 — Floating chat (mobile)
+- New decision: mobile-only floating chat that opens WhatsApp with a language-aware default message.
+- Blocked on: verified business WhatsApp number (O-006). Until then it links to the on-page contact section.
+- Approved by: user.
+
+### 2026-11-21 — Colony Stories (Instagram)
+- New decision: add a "Colony Stories" section for the official account @colonyhub.id: designed story-engagement frames with a story viewer. No Instagram embed, no video files: the 2D/3D brand art and stickers are the final content. Follower count is not shown.
+- Current content: five frames (poll, quiz, slider, question, this-or-that), one per unit theme. The CTA links to the Instagram profile.
+- Spec: `documents/04-design/ui-ux-baseline.md` §5. Approved by: user.
+
 ## Change record template
 
 ```md

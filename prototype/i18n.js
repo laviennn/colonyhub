@@ -82,10 +82,18 @@ window.CH_I18N = {
     'cta.l2': 'bisnis Anda menuju.',
     'cta.lead': 'Konsultasi pertama gratis. Bawa masalahnya, bukan brief yang sudah jadi: rutenya kita petakan bersama.',
 
+    'chat.label': 'Chat via WhatsApp',
+    'stories.label': 'Instagram',
+    'stories.title': 'Cerita dari koloni.',
+    'stories.lead': 'Reels singkat dari @colonyhub.id: poll, kuis, dan pertanyaan yang kami jalankan bersama audiens setiap minggu.',
+    'stories.follow': 'Ikuti @colonyhub.id',
+    'stories.answer': 'Jawab di Instagram',
+    'stories.open': 'Buka story',
+    'stories.tapHint': 'Jawab di story Instagram kami',
     'ft.company': 'Perusahaan',
     'ft.contact': 'Kontak',
     'ft.legal': 'Legal',
     'ft.privacy': 'Kebijakan privasi',
-    'ft.proto': 'Prototipe v0.2 · konten placeholder ditandai'
+    'ft.proto': 'Prototipe v0.4 · konten placeholder ditandai'
   }
 };
