@@ -277,11 +277,10 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 
   /* ---------- Colony Stories: rail + full-screen viewer ----------
-     Frames are designed brand content built from stories-data.js (2D/3D art in assets/stories + HTML
-     stickers). Interactions never collect answers on this site: the viewer's CTA sends people to
-     @colonyhub.id on Instagram. */
+     A showcase of the story-engagement formats the Social and Creative units make for clients.
+     Frames are designed samples set in colonyhub's own brand (2D/3D art in assets/stories + HTML
+     stickers). The viewer's CTA leads to the free consultation. */
   const STORIES = window.CH_STORIES || [];
-  const IG = window.CH_IG || { profile: 'https://www.instagram.com/' };
   const rail = $('[data-story-rail]');
   const viewer = $('[data-story-viewer]');
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -307,7 +306,7 @@
     if (!rail) return;
     rail.innerHTML = STORIES.map((s, i) => {
       const u = UNITS[s.unit] || { c: '#8A94F2' };
-      return `<li><button type="button" class="story-card" data-story="${i}" style="--c:${u.c}" aria-label="${esc((dict[lang] && dict[lang]['stories.open']) || 'Open story')}: ${esc(s.hook[lang])}">
+      return `<li><button type="button" class="story-card" data-story="${i}" style="--c:${u.c}" aria-label="${esc((dict[lang] && dict[lang]['stories.open']) || 'View sample story')}: ${esc(s.hook[lang])}">
         ${frameHTML(s)}<span class="sf-ring" aria-hidden="true"></span></button></li>`;
     }).join('');
     $$('.story-card', rail).forEach((b) => b.addEventListener('click', () => openStory(Number(b.dataset.story))));
@@ -316,7 +315,7 @@
   // Viewer state
   let cur = 0, timer = 0, startedAt = 0, remaining = 0, paused = false, held = false, holdT = 0;
   const DUR = 6000;
-  const svFrame = $('[data-sv-frame]'), svBars = $('[data-sv-bars]'), svUnit = $('[data-sv-unit]'), svIG = $('[data-sv-ig]');
+  const svFrame = $('[data-sv-frame]'), svBars = $('[data-sv-bars]'), svUnit = $('[data-sv-unit]'), svCTA = $('[data-sv-cta]');
 
   function renderStory(i, enter) {
     cur = i;
@@ -326,7 +325,6 @@
     const f = $('.story-frame', svFrame);
     if (enter) { f.classList.add('is-entering'); }
     svUnit.textContent = u.name;
-    svIG.href = IG.profile;
     svBars.innerHTML = STORIES.map((_, k) => `<span class="${k < i ? 'done' : k === i ? 'now' : ''}"><i></i></span>`).join('');
     svBars.style.setProperty('--dur', DUR + 'ms');
     if (reduce) { const n = $('.now i', svBars); if (n) n.style.width = '100%'; return; } // no auto-advance
@@ -386,8 +384,9 @@
     stage.addEventListener('touchstart', (e) => { y0 = e.touches[0].clientY; }, { passive: true });
     stage.addEventListener('touchend', (e) => { if (y0 !== null && e.changedTouches[0].clientY - y0 > 90) closeStory(); y0 = null; });
     // Pause while the visitor is on the Instagram CTA
-    svIG.addEventListener('pointerenter', () => setPaused(true));
-    svIG.addEventListener('pointerleave', () => setPaused(false));
+    svCTA.addEventListener('pointerenter', () => setPaused(true));
+    svCTA.addEventListener('pointerleave', () => setPaused(false));
+    svCTA.addEventListener('click', () => closeStory()); // close, then the link scrolls to the consultation CTA
   }
 
   /* ---------- Language (EN default, ID) ---------- */

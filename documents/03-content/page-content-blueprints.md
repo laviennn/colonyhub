@@ -14,7 +14,7 @@
 
 ## 1. Homepage `/`
 
-> **Superseded by the approved baseline (2026-11-21).** The homepage now follows prototype v0.4: Hero (split wordmark + media panel) → Network map (Services, with 24 stop explanations) → Statement → Route (Approach) → Tickets (Seed/Grow/Scale) → Colony Stories → Insights → About → CTA → Footer. Live copy: `prototype/index.html`, `prototype/i18n.js`, `prototype/services-data.js`. Section spec: `../04-design/ui-ux-baseline.md` §4. The table below is kept as the original proposal for reference.
+> **Superseded by the approved baseline (2026-11-21).** The homepage now follows prototype v0.4: Hero (split wordmark + media panel) → Network map (Services, with 24 stop explanations) → Statement → Route (Approach) → Tickets (Seed/Grow/Scale) → Social content showcase (story formats) → Insights → About → CTA → Footer. Live copy: `prototype/index.html`, `prototype/i18n.js`, `prototype/services-data.js`. Section spec: `../04-design/ui-ux-baseline.md` §4. The table below is kept as the original proposal for reference.
 
 **Goal:** Establish Creative × Technology identity, demonstrate work, direct relevant inquiries.  
 **Sample SEO title:** `colonyhub — Creative & Technology Digital Agency`.

@@ -1,5 +1,5 @@
-/* Colony Stories — story-engagement frames for @colonyhub.id.
-   Final designed content: 2D/3D brand art (assets/stories/*.svg) + HTML stickers. No video files.
+/* Social content showcase — story-engagement formats colonyhub designs for client brands.
+   Samples are set in colonyhub's own brand: 2D/3D art (assets/stories/*.svg) + HTML stickers. No video files.
    In production this becomes the CMS `stories` model:
    { unit, bg, hook{en,id}, sticker{...}, caption{en,id} } */
 window.CH_IG = { handle: 'colonyhub.id', profile: 'https://www.instagram.com/colonyhub.id/' };

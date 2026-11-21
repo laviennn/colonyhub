@@ -58,7 +58,7 @@ All text pairs used were checked at ≥ 4.5:1 (normal text) with the antislop-hu
 | 3 | Statement | Cloud | Words light up with scroll (the type moment) |
 | 4 | Route (Approach) | Cloud | Discover → Define → Create → Improve on one thick line, last stop lime |
 | 5 | Tickets | Mist | Seed / Grow / Scale as tickets with perforation and stub |
-| 5b | Colony Stories | Navy | Rail of designed 9:16 story frames for @colonyhub.id with engagement stickers; full-screen story viewer; CTA to Instagram |
+| 5b | Social content showcase | Navy | Rail of 9:16 story-format samples (poll, quiz, slider, question) the Social/Creative units make for brands; full-screen viewer; CTA to the free consultation |
 | 6 | Insights | White | Row list; items carry a visible **Placeholder** tag until real articles exist |
 | 7 | About | Cloud | Five values in a ruled row |
 | 8 | CTA | Navy | Giant `tell us where / you're headed.` + lime button |
@@ -111,12 +111,13 @@ Work/portfolio, client logos, testimonials and metrics stay hidden (decision log
 - Insights: row grid (meta / title / art); hover recolours the title and scales the art 0.92 → 1.
 - Footer wordmark: inside container padding, font size `(min(100vw, 1440px) − 2 × gutter) × 0.2012`, so it spans the container exactly; 28–52 px clearance above the base rule.
 
-### Colony Stories (Instagram)
+### Social content showcase (story formats)
+- **Purpose:** portfolio proof for the Social and Creative units. It shows the story-engagement formats colonyhub makes for client brands, not colonyhub's own Instagram activity. Samples are set in colonyhub's own brand (no client work is shown until approved, O-003). Copy: "Stories people answer, not just watch."
 - **Never an Instagram embed** (weight, third-party cookies, foreign styling, login walls). **No video files either**: the stories are final designed content made of 2D/3D brand art plus HTML stickers (decision 2026-11-21).
 - **Story frame component** (one component for card and viewer): 9:16, radius 22–24, container-query sized type; top bar, avatar with Hub Mark ringed in the unit colour, unit pill, hook (Sora 600), engagement sticker, caption. Sticker types: poll, quiz, emoji slider (thumb is the Hub Mark, not an emoji), question box. Backgrounds: `prototype/assets/stories/*.svg` (1080×1920, one per unit theme).
 - **Rail:** horizontal scroll-snap aligned to the container edge, cards `clamp(210px, 19.5vw, 270px)` (64vw on phones); hover lifts 6 px, draws a unit-colour ring and nudges the sticker.
 - **Viewer:** native `<dialog>` (focus trap, Escape), blurred navy backdrop, opens with scale 0.96 → 1 (420 ms `--ease`), story swap 360 ms; live progress bars (6 s per frame); tap/click right two-thirds = next, left third = previous; ← → keys; press-and-hold pauses; pause/play button; swipe down closes on touch; backdrop click closes; pauses while the pointer is on the CTA; closes after the last story; page scroll locked; floating chat hidden while open.
-- **CTA:** "Answer on Instagram" links to the @colonyhub.id profile. Answers are never collected on the site.
+- **CTA:** section link "Plan your social content" and viewer button "Get stories like this" both go to the free consultation (the viewer closes first). No Instagram link and no follower count in this section.
 - Reduced motion: no auto-advance, bars shown full, manual navigation only.
 - Data: `prototype/stories-data.js` (future CMS `stories`: unit, background art, hook, sticker, caption, EN/ID). New stories are made in the same way: a 1080×1920 brand background plus one sticker.
 
@@ -157,7 +158,7 @@ No horizontal overflow at any width (checked at 375, 1280, 1440, 1920).
 - [ ] Mobile menu: reveal, header-to-navy, staggered links, drawn rules, focus handling, scroll lock.
 - [ ] Statement word-lighting, with reduced-motion final state.
 - [ ] Floating chat: visibility rules, fold, language-aware WhatsApp link, fallback while the number is missing.
-- [ ] Colony Stories: designed frames (no IG embed, no video), rail, viewer controls (tap, keys, hold, swipe, close), progress, CTA to Instagram, reduced-motion behaviour.
+- [ ] Social content showcase: designed sample frames (no IG embed, no video), rail, viewer controls (tap, keys, hold, swipe, close), progress, CTA to consultation, reduced-motion behaviour.
 - [ ] EN/ID parity of every string.
 - [ ] No horizontal overflow at 375, 768, 1280, 1440, 1920; contrast ≥ 4.5:1 for text.
 - [ ] Lighthouse/CWV within the budgets in `../05-engineering/seo-performance-accessibility.md`.
@@ -172,5 +173,5 @@ No horizontal overflow at any width (checked at 375, 1280, 1440, 1920).
 | `prototype/hero-nodes.js` | WebGL "living colony" (three.js r160, raymarched SDF) |
 | `prototype/services-data.js` | Colony Units, line paths, stops with EN/ID explanations (future CMS `services`) |
 | `prototype/i18n.js` | Indonesian strings |
-| `prototype/stories-data.js` | Colony Stories items and Instagram handle (future CMS `stories`) |
+| `prototype/stories-data.js` | Story-format samples for the social content showcase (future CMS `stories`) |
 | `prototype/assets/stories/*.svg` | Branded 1080×1920 story backgrounds, one per unit theme (final art) |

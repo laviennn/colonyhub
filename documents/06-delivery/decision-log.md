@@ -100,6 +100,11 @@
 - Current content: five frames (poll, quiz, slider, question, this-or-that), one per unit theme. The CTA links to the Instagram profile.
 - Spec: `documents/04-design/ui-ux-baseline.md` §5. Approved by: user.
 
+### 2026-11-21 — Stories section reframed as portfolio
+- Previous position: "Colony Stories" presented the frames as colonyhub's own Instagram activity, with CTAs to the profile.
+- New decision: the section is a **social content showcase**: story-engagement formats colonyhub makes for client brands, shown as samples in colonyhub's own brand. CTAs lead to the free consultation; no Instagram link or follower count in the section.
+- Approved by: user.
+
 ## Change record template
 
 ```md
