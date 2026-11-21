@@ -1,0 +1,34 @@
+/* colonyhub — approved design tokens (UI/UX baseline §3, prototype v0.4)
+   Type: Sora / Inter / JetBrains Mono. No stray hex values in components. */
+
+:root {
+  --navy: #0B1230;
+  --navy-2: #111A40;
+  --periwinkle: #8A94F2;
+  --peri-soft: #B7BDF8;
+  --lime: #C6F432;
+  --cloud: #F6F4EE;
+  --slate: #5A6178;
+  --mist: #E4E6F0;
+  --coral: #FF6B4A;
+  --indigo: #3F4BB8;
+  --indigo-lt: #6C76E0;
+
+  --on-dark: #F6F4EE;
+  --on-dark-2: #BFC3D9; /* 9.6:1 on navy */
+  --rule: rgba(138, 148, 242, 0.16);
+  --rule-strong: rgba(138, 148, 242, 0.32);
+
+  --f-display: var(--font-sora, 'Sora'), system-ui, sans-serif;
+  --f-body: var(--font-inter, 'Inter'), system-ui, sans-serif;
+  --f-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 160ms;
+  --t-base: 260ms;
+
+  --pad: clamp(16px, 3.2vw, 48px);
+  --max: 1440px;
+  --header-h: 72px;
+  --r: 16px;
+}

@@ -31,7 +31,9 @@ Phases 2–3 are covered for the **homepage** by the approved prototype v0.4 (`p
 
 **Rebuild rule:** port the prototype at parity first (tokens → layout → components → motion → WebGL hero), then refactor. Parity checklist: `../04-design/ui-ux-baseline.md` §9.
 
-**Outputs:** selected framework/CMS/hosting, repositories, CI, routing, tokens, global UI components, content adapters, preview/staging and SEO utilities.  
+**Stack:** Next.js monorepo (`apps/web`, `apps/command-center`, shared `packages/*`) on Vercel; custom CMS = Colony Command Center (see `../05-engineering/technical-guidelines.md` §2).
+
+**Outputs:** monorepo, CI, database + migrations, auth for the command center, routing with locales, tokens and global UI components from the baseline, content schema, preview/draft mode, SEO utilities.  
 **Exit:** editors can preview and developers can deploy safely.
 
 ## Phase 5 — Page and CMS build

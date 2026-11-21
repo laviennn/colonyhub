@@ -1,0 +1,30 @@
+{
+  "name": "@colonyhub/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts",
+    "./menus": "./src/menus.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:seed": "npx tsx src/seed.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@colonyhub/content": "workspace:*",
+    "drizzle-orm": "^0.43.1",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@colonyhub/config": "workspace:*",
+    "@types/node": "^22.15.29",
+    "drizzle-kit": "^0.31.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  }
+}

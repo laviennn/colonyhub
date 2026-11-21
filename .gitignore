@@ -3,3 +3,13 @@ node_modules/
 .env*
 !.env.example
 .claude/settings.local.json
+.next/
+.next-e2e/
+.turbo/
+dist/
+out/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.colonyhub-local-data.json

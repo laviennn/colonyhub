@@ -64,9 +64,13 @@ Unit values must map to official source scope. Public display can add human-read
 
 ## Article
 
+Use the [article publishing and SEO contract](SEO.md#3-artikel-dinamis-dari-command-center) for public reads, metadata and cache invalidation.
+
 ```ts
 type Article = {
   id: string;
+  locale: 'en'|'id';
+  translationGroupId: string; // stable across translations, even if slugs differ
   slug: string;
   title: string;
   dek: string;
@@ -87,7 +91,7 @@ type Article = {
 };
 ```
 
-Reading time is derived from word count at render/build time, not manually faked. Dates and bylines reflect real publishing events.
+Scope slug uniqueness to locale for articles and retain old public slugs for redirects. Each translation has its own publication status and dates. Reading time is derived from word count. Public modification dates reflect substantive changes.
 
 ## Author / Category
 
@@ -130,7 +134,7 @@ Project many-to-many Service. Article belongs to Category and Author; Article op
 ## Editorial constraints
 
 - Unpublished item must never be returned through public API without privileged authorization.
-- Slugs unique within type; redirects on changes.
+- Slugs unique within type and locale for localized content. Preserve redirects on changes.
 - Required alt on informative editorial image; decorative image explicitly marked.
 - Media asset ownership and license checked at publish time.
 - Preview links expire or are access-controlled.

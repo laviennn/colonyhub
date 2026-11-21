@@ -2,6 +2,8 @@
 
 **Status:** Implementable technical recommendations. Source brand guide requires SEO + GEO readiness, clean sitemap/robots, Organization and Service schema, `llms.txt`, and good Core Web Vitals (pp.3,10).
 
+Use [SEO.md](SEO.md) for the production domain, localized metadata, article publishing, structured data, sitemap, and crawler controls. This document also covers performance budgets and accessibility.
+
 ## 1. Search discoverability
 
 - One unique descriptive `<title>` and meta description per indexable page.

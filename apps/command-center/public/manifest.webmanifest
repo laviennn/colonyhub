@@ -1,0 +1,10 @@
+{
+  "name": "Colony Command Center",
+  "short_name": "Command",
+  "description": "Internal CMS and Inquiry Inbox for colonyhub.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F4EE",
+  "theme_color": "#0B1230",
+  "orientation": "portrait-primary"
+}

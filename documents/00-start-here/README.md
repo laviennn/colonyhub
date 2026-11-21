@@ -34,8 +34,10 @@ colonyhub is a digital agency combining strategy, creativity, technology, and da
 | `04-design/design-system.md` | Color/font/layout/component tokens and states |
 | `04-design/wireframe-specs.md` | Text wireframes, block-level page hierarchy |
 | `05-engineering/technical-guidelines.md` | Architecture options, CMS, data, testing, security |
+| [`05-engineering/SEO.md`](../05-engineering/SEO.md) | Production SEO/GEO/AEO, crawl rules, schema, and dynamic article publishing |
 | `05-engineering/seo-performance-accessibility.md` | Technical SEO, performance and WCAG testing |
 | `05-engineering/content-models.md` | Content schema for projects, services, articles |
+| `06-delivery/implementation-plan.md` | Phased prototype-to-production plan, skill setup, and phase checkpoints |
 | `06-delivery/implementation-roadmap.md` | Phases, deliverables, dependencies |
 | `06-delivery/qa-acceptance-checklist.md` | Release checklist and QA cases |
 | `06-delivery/decision-log.md` | Confirmed vs recommended vs unresolved choices |

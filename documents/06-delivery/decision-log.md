@@ -1,6 +1,6 @@
 # Decisions, assumptions and open questions
 
-**Updated:** 13 November 2026. This log prevents speculative details from being mistaken for brand/source requirements.
+**Updated:** 21 November 2026. This log prevents speculative details from being mistaken for brand/source requirements.
 
 ## Confirmed
 
@@ -37,8 +37,8 @@
 | O-003 | What client work can be published with evidence/permissions? | Work and homepage proof |
 | O-004 | Are Seed/Grow/Scale operational offers with scope/prices? | Service CTA and engagement copy |
 | O-005 | Final language strategy: ID, EN or bilingual? | Localization / content production |
-| O-006 | What is approved domain and actual contact email? | Launch metadata, CTAs and legal |
-| O-007 | Which framework, CMS, host, image pipeline? | Engineering implementation |
+| O-006 | Production domain confirmed: `colonyhub.id`. Business email and WhatsApp number remain open. | Live contact, CTAs and legal |
+| O-007 | ~~Which framework, CMS, host, image pipeline?~~ **Resolved 2026-11-21:** Next.js + custom-built CMS ("Colony Command Center") on Vercel. Remaining: database, auth, storage and command-center feature scope (see below) | Engineering implementation |
 | O-008 | Where do inquiries go and who responds? | Contact delivery and policies |
 | O-009 | Who owns editorial sign-off and source checks? | Publishing governance |
 | O-010 | What real KPIs/analytics baseline and consent model apply? | Success measurement |
@@ -105,6 +105,37 @@
 - New decision: the section is a **social content showcase**: story-engagement formats colonyhub makes for client brands, shown as samples in colonyhub's own brand. CTAs lead to the free consultation; no Instagram link or follower count in the section.
 - Approved by: user.
 
+### 2026-11-21 — Tech stack (O-007)
+- Previous position: open; Astro + Sanity was proposed and declined.
+- New decision: **Next.js** (App Router, TypeScript) for the public site, and a **custom-built CMS** instead of a headless SaaS CMS. The CMS is not only content admin: it becomes the **Colony Command Center**, an internal operations hub with more features over time. Hosting stays on **Vercel**.
+- Proposed (awaiting confirmation): monorepo with `apps/web` (public site) and `apps/command-center` (internal, authenticated, own subdomain); shared `packages/db`, `packages/ui` (tokens + components from the baseline), `packages/config`; Postgres + Drizzle ORM; Auth.js/Better Auth with roles and MFA; Vercel Blob for media; cache tags + on-demand revalidation from the command center to the site. Details: `documents/05-engineering/technical-guidelines.md` §2.
+- Still open: command-center feature scope (beyond content: e.g. inquiries inbox, clients, projects, reporting), database provider, auth provider, who administers access.
+- Approved by: user (Next.js + custom CMS).
+
+### 2026-11-21 — Production domain (O-006)
+- New decision: `https://colonyhub.id` is the public production origin for canonical URLs, sitemap, structured data, and social metadata.
+- Current prototype: `colonyhub.vercel.app`. Verify DNS, TLS and redirects during production cutover.
+- Still needed: verified business email and WhatsApp number (user confirmed 2026-11-21 these will follow later; use Brand Identity PDF content and keep `#contact` fallback until verified).
+- Approved by: user.
+
+### 2026-11-21 — Monorepo structure confirmed (O-007)
+- Previous position: monorepo layout proposed in `technical-guidelines.md` §2 awaiting confirmation.
+- New decision: confirmed Turborepo + pnpm monorepo (`apps/web`, `apps/command-center`, `packages/db`, `packages/ui`, `packages/content`, `packages/config`) with Next.js App Router + TypeScript, plain CSS tokens/stylesheets for baseline parity, Drizzle ORM schema scaffold, and Vitest + Playwright verification.
+- Still open (for Phase 03): hosted Postgres provider (Neon vs alternative), Auth provider (Auth.js vs Better Auth) + admin access owner, Command Center feature scope beyond CMS/inquiries, and backup/restore policy.
+- Approved by: user.
+
+### 2026-11-21 — Statement pre-lit color kept at baseline parity
+- Previous position: Phase 01 tested changing `.st-text.is-armed .w` from `#C9CBD6` (1.47:1) to `var(--slate)` (`#5A6178`, 5.59:1) for pre-scroll contrast.
+- New decision: keep `#C9CBD6` verbatim per prototype v0.4 and `ui-ux-baseline.md` §5 to preserve the dim-to-lit scroll micro-interaction. The pre-scroll state is treated as a decorative transition stage; words light to `#0B1230` (16.70:1) and `#3F4BB8` (6.56:1) as they enter reading position, and `prefers-reduced-motion` / no-JS render the full final state immediately.
+- Affected docs/routes: `packages/ui/src/styles/homepage.css`, `documents/06-delivery/implementation/01-foundation/checkpoint.md`.
+- Approved by: user.
+
+### 2026-11-21 — Floating Restrained Glassmorphism Navbar (Baseline update)
+- Previous position: full-width sticky header (`68px`, `62px` mobile) with bottom hairline border and opaque navy transition on mobile menu open.
+- New decision: non-full-width floating pill navbar (`max-width: 1080px` desktop, `760px` tablet, inset mobile bar with `10px` top and `--pad` side breathing room) using **Restrained Glassmorphism** (`rgba(246, 244, 238, 0.78)` + `blur(18px) saturate(145%)`, subtle specular top hairline, soft outer ring and shadow). Nav text uses `rgba(11, 18, 48, 0.78)` so contrast stays ≥ 5.9:1 even when floating over solid Hub Navy sections. On mobile menu open, the full-viewport frosted Hub Navy sheet (`position: fixed; inset: 0;`) reveals beneath the floating pill while the pill cross-fades to dark navy glass (`rgba(17, 26, 64, 0.84)`) with zero layout jump.
+- Affected docs/routes: `packages/ui/src/styles/{tokens,homepage}.css`, `apps/web/src/components/SiteHeader.tsx`, `documents/04-design/ui-ux-baseline.md` §3–§5.
+- Approved by: user.
+
 ## Change record template
 
 ```md
@@ -116,3 +147,36 @@
 - Affected docs/routes:
 - Follow-up owner:
 ```
+
+### 2026-11-22 — Phase 03 Command Center architecture, auth, inquiry, and mobile native-app UX
+- Database: Postgres/Neon-compatible Drizzle ORM (`packages/db`) with atomic local JSON fallback store (`.colonyhub-local-data.json`) when `DATABASE_URL` is unset so local development runs zero-config.
+- Auth & RBAC: HTTP-only Postgres-backed sessions (`scrypt` password hashing, MFA-ready schema) with server-enforced roles (`admin`, `reviewer`, `editor`). Command Center sets `X-Robots-Tag: noindex, nofollow, noarchive` on all routes.
+- Inquiry flow: `POST /api/inquiries` stores leads in `inquiries` (visible in Command Center Inbox) with Zod validation, honeypot, rate limiting, and `x-idempotency-key` deduplication, plus optional Resend email notification adapter ready for `O-006`.
+- Backoffice UI/UX: Hub Navy desktop sidebar + Cloud White workspace; mobile (`<= 768px`) adopts a native-app shell (fixed 56px top app bar, fixed 64px + safe-area bottom tab bar, native tappable cards, segmented editor tabs, and PWA manifest).
+- Approved by: user.
+
+### 2026-11-22 — Dynamic Menu-Based RBAC (Colony Command Center)
+- Previous position: static hardcoded roles (`admin`, `reviewer`, `editor`) with fixed permission helpers.
+- New decision: **Superadmin-managed Dynamic Menu-Based RBAC**.
+  - `superadmin` is the highest system role and has full unrestricted access (`*`) plus sole control over Role & Permission management.
+  - Permissions are structured **per admin menu** (e.g. `overview`, `insights`, `inquiries`, `settings`, `roles`, and any future menu) with granular actions (`view`, `create`, `edit`, `publish`, `delete`).
+  - `superadmin` can create, rename, and configure custom roles and toggle which menus and actions each role is allowed to access, then assign those roles to team accounts.
+  - **Auto-RBAC on new menus:** every admin menu must be declared in a single typed Menu Registry (`ADMIN_MENUS`). Adding a new menu automatically registers its RBAC permissions in the DB/sync layer; `superadmin` gets access automatically, while all other custom roles default to deny (fail-closed) until `superadmin` grants access.
+  - Sidebar/mobile bottom-bar visibility and server-side route/API guards both read from this same permission matrix.
+- Spec added to: `documents/05-engineering/technical-guidelines.md` §2.1 and `AGENTS.md`.
+- Approved by: user.
+
+### 2026-11-22 — Direct Contact (O-006 Resolved), Dynamic Tracking (GA4/GTM/Meta Pixel), Consent Mode v2 & UU PDP Privacy Policy
+- **O-006 Resolved:** Official business email is `hello@colonyhub.id` and official WhatsApp is `+62 896-7529-3838` (`6289675293838`). Floating mobile WhatsApp chat is now active by default.
+- **Direct Contact only (no Inquiry Form):** Removed embedded inquiry form on `/contact`, `/api/inquiries`, and the `Inquiries` menu in Colony Command Center. Visitors connect directly via WhatsApp (with contextual pre-filled message) or Email (`mailto:` + Copy button).
+- **Dynamic Tracking in Backoffice:** Added `site_settings` table (`0002_site_settings_tracking.sql`) and `tracking` menu in `ADMIN_MENUS` (automatically enrolled in Dynamic Menu-Based RBAC; superadmin allow, custom roles fail-closed). Stores validated IDs only (GA4 `G-...`, GTM `GTM-...`, Meta Pixel digits — zero raw script injection) and syncs live to `apps/web` via on-demand layout revalidation.
+- **Strict Opt-in Cookie Consent & UU PDP Privacy Policy:** Added bilingual Cookie Consent Banner + Preferences Modal (`colonyhub_consent_v1`) implementing Google Consent Mode v2 (`denied` by default, zero third-party scripts loaded before explicit opt-in) and updated `/privacy` & `/id/privacy` per UU No. 27 Tahun 2022 (UU PDP) with Cookie Settings re-open links in Footer and Privacy Policy.
+- **GA4-ready CTA Tracking:** All primary CTAs, WhatsApp links, Email links, Service pages, and Articles emit zero-PII events (`cta_click`, `whatsapp_click`, `email_click`, `generate_lead`, `service_view`, `article_view`) to `gtag`, `dataLayer`, and Meta Pixel (`Contact` / `ViewContent`) once consented.
+- Approved by: user.
+
+### 2026-11-22 — SEO / GEO / AEO & Antislop Copywriting Audit Refinements (Baseline update)
+- **Titles & Zero Em Dashes (`R-02`):** Standardized all 28 EN/ID route `<title>` tags to ≤ 60 characters without duplicate brand names or em dashes (`—`), including homepage (`colonyhub | Integrated digital agency in Indonesia` / `colonyhub | Digital agency terintegrasi di Indonesia`). Removed all remaining em dashes across UI copy, OG image, email subjects, and a11y labels.
+- **Production Hygiene (`R-38`):** Replaced the prototype v0.4 footer note with `Jakarta, Indonesia · WIB (UTC+7)`. Preview fixture articles are strictly `noindex, follow` (and automatically replaced once live Command Center articles exist); replaced the outdated inquiry-form fixture with a direct-contact field note and removed dead inquiry form dictionary fields.
+- **Heading Hierarchy, GEO & AEO Structure:** Fixed skipped `H1 → H3` headings on all 12 Service Detail pages and `/insights` + `/id/insights`; enriched `Organization` JSON-LD (`description`, `areaServed`, `knowsAbout`, raster PNG `/apple-icon` logo), `Service` (`areaServed`), `ItemList`, `AboutPage`, `ContactPage`, `CollectionPage`, and `BlogPosting` (`Person` author support + conditional real image only per `SEO.md §3`); upgraded `/llms.txt` to dynamic output with EN/ID routes, Instagram, and live published Insights; added a Seed vs. Grow vs. Scale HTML comparison table, concise unit direct-answer blocks, and truthful, non-generic Q&As (`FAQPage` JSON-LD) on `/services`, `/services/[slug]`, and `/approach`.
+- **Direct-Contact CTA & Voice Alignment (`R-15`, `R-36`):** Aligned primary consultation CTAs (`Start a free consultation` / `Mulai konsultasi gratis`, `Start a chat` / `Mulai obrolan`) and `/contact` buttons to match the direct WhatsApp/Email/Instagram flow (no implied booking calendar), removed forced colony metaphor on 404, and unified sentence case across legal/footer labels.
+- Approved by: user.

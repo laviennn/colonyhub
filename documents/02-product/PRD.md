@@ -28,7 +28,7 @@ A visitor must quickly understand why colonyhub is relevant, what it delivers, h
 
 ## 4. Non-goals (initial release)
 
-- No account login, customer dashboard, billing, payments or project management.
+- No account login, customer dashboard, billing, payments or project management **on the public site**. (The internal Colony Command Center, the custom CMS, is a separate authenticated app; its feature scope is decided separately, see decision log 2026-11-21.)
 - No AI chatbot by default.
 - No fabricated awards, project data or auto-generated “proof”.
 - No multilingual site unless resourcing and editorial ownership are approved.

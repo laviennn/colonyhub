@@ -2,7 +2,7 @@
 
 **Status:** APPROVED by user, 2026-11-21. This is the visual and interaction baseline for the production rebuild.
 **Source of truth:** the running prototype in `prototype/` (live: https://colonyhub.vercel.app). Where this document and the prototype disagree, the prototype wins; fix this document.
-**Stack:** not yet decided (decision log O-007). Everything below is stack-agnostic; the rebuild ports it, it does not redesign it.
+**Stack:** Next.js (App Router, TypeScript) monorepo + Colony Command Center on Vercel (decision log O-007, 2026-11-21). Everything below is ported at parity first; the rebuild does not redesign it.
 
 ---
 
@@ -38,7 +38,7 @@
 | Type | display / body / mono | Sora 400–700 / Inter 400–600 / JetBrains Mono 400–500 |
 | Radius | cards, panels, tickets | 12 / 16 / 20 / 24 px, pills 999 px |
 | Layout | max width / gutter | 1440 px / `clamp(16px, 3.2vw, 48px)` |
-| Header | height | 68 px (62 px < 768) |
+| Header | height | 72 px total (12 px top offset + 60 px floating pill; 66 px < 768) |
 | Motion | `--ease` (expo-out) | `cubic-bezier(0.16, 1, 0.3, 1)` |
 | | fast / base | 160 ms / 260 ms |
 | | closing ease | `cubic-bezier(0.4, 0, 1, 1)` |
@@ -69,12 +69,13 @@ Work/portfolio, client logos, testimonials and metrics stay hidden (decision log
 ## 5. Components and interaction specs
 
 ### Header and navigation
-- Desktop (> 1100 px): Services opens a mega menu on hover (160 ms close delay) or click; Escape and outside click close it; focus leaving closes it.
+- Floating non-full-width **Restrained Glassmorphism** pill (`max-width: 1080 px` desktop, `760 px` tablet, inset with `--pad` margin on phones; `rgba(246, 244, 238, 0.78)` + `blur(18px) saturate(145%)`, subtle specular edge and outer hairline, solid Cloud White fallback when `backdrop-filter` is unsupported). Nav text uses `rgba(11, 18, 48, 0.78)` so contrast stays ≥ 4.5:1 even over dark Hub Navy sections.
+- Desktop (> 1100 px): Services opens a frosted navy mega menu on hover (160 ms close delay) or click; Escape and outside click close it; focus leaving closes it.
 - Mobile menu (≤ 1100 px):
-  - Panel stays in the DOM, toggled with a class plus `inert` (never `hidden`, which pops).
-  - Open: `clip-path: inset(0 0 100% 0) → inset(0)` 640 ms `--ease`; header background and text cross-fade to navy (420 ms) so header and panel read as one surface; links rise 14 px and fade in, staggered 55 ms (`--k`); each link's rule draws left-to-right (720 ms); CTA and language switch follow last.
+  - Panel stays in the DOM (`position: fixed; inset: 0;` behind the floating pill), toggled with a class plus `inert` (never `hidden`, which pops).
+  - Open: `clip-path: inset(0 0 100% 0) → inset(0)` 640 ms `--ease`; the floating pill stays fixed in place and cross-fades to dark navy glass (420 ms) so header and sheet read seamlessly without layout jump; links rise 14 px and fade in, staggered 55 ms (`--k`); each link's rule draws left-to-right (720 ms); CTA and language switch follow last.
   - Close: 300 ms closing ease, all items together.
-  - Focus moves to the first link 180 ms after opening, returns to the toggle on Escape; Tab is trapped in the open menu; page scroll is locked.
+  - Focus moves to the first link 180 ms after opening (20 ms under reduced motion), returns to the toggle on Escape; Tab is trapped in the open menu; page scroll is locked.
 
 ### Hero
 - Wordmark: Sora 700, `clamp(4.2rem, 17.2vw, 15.5rem)`, line-height 1.04 (clears the `y` descender), `colony` navy / `hub` indigo, justified to the container edges; entrance rise 1000 ms, `hub` +80 ms.
